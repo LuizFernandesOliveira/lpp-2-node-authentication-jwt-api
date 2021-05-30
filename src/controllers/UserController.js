@@ -1,6 +1,15 @@
+const httpStatus = require('../helpers/httpStatus');
+const message = require('../helpers/message');
+const userService = require('../services/userService');
+
 class UserController {
-  create() {
-    
+  async create(request, response) {
+    try {
+      const user = await userService.create(request.body);
+      return response.status(httpStatus.OK).json(user);
+    } catch (e)  {
+      return response.status(e.httpStatus).json({ message: e.message });
+    }
   }
 }
 
