@@ -1,15 +1,10 @@
-const httpStatus = require('../helpers/httpStatus');
-const message = require('../helpers/message');
-const UserException = require('../exceptions/userException');
+const fields = require('./fieldsValidate');
 
-function emailRequired(email) {
-  if (email === undefined) {
-    throw new UserException(message.USER_VALID_EMAIL_REQUIRED, httpStatus.BAD_REQUEST);
-  }
-}
-
-const userCreateValidate = (email) => {
-  emailRequired(email);
+const userCreateValidate = (email, password) => {
+  fields.emailRequired(email);
+  fields.emailInvalid(email);
+  fields.passwordRequired(password);
+  fields.passwordInvalid(password);
 };
 
 module.exports = {
