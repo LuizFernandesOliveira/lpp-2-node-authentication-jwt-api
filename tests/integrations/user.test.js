@@ -1,85 +1,127 @@
-const request = require('supertest');
-const app = require('../../src/app');
+const frisby = require('frisby');
+const shell = require('shelljs');
 const httpStatus = require('../../src/helpers/httpStatus');
 const message = require('../../src/helpers/message');
 
 const URL = 'http://localhost:3333';
 
-describe('[ AUTHENTICATION ] validation Email', () => {
-  it('verifica se o email é obrigatório.', async () => {
-    const response = await request(app)
-      .post('/users')
-      .send({ password: 'luiz123', name: 'Luiz Fernandes de Oliveira' });
-    const { status, body } = response;
-    expect(status).toBe(httpStatus.BAD_REQUEST);
-    expect(body.message).toBe(message.USER_VALID_EMAIL_REQUIRED);
-  });
+describe('[ AUTHENTICATION ]', () => {
 
-  it('verifica se o email digitado é inválido.', async () => {
-    const response = await request(app)
-      .post('/users')
-      .send({
-        email: 'luizfernandesoliveiraoficial@',
+  describe('validation Email', () => {
+    it('verifica se o email é obrigatório.', async () => {
+      await frisby.post(`${URL}/users`, {
         password: 'luiz123',
         name: 'Luiz Fernandes de Oliveira',
-      });
-    const { status, body } = response;
-    expect(status).toBe(httpStatus.BAD_REQUEST);
-    expect(body.message).toBe(message.USER_VALID_EMAIL_INVALID);
-  });
-});
+      })
+        .expect('status', httpStatus.BAD_REQUEST)
+        .then((response) => {
+          const result = JSON.parse(response.body);
+          expect(result.message).toBe(message.USER_VALID_EMAIL_REQUIRED);
+        });
+    });
 
-describe('[ AUTHENTICATION ] validation Password', () => {
-  it('verifica se o password é obrigatório.', async () => {
-    const response = await request(app)
-      .post('/users')
-      .send({ email: 'luizfernandesoliveiraoficial@gmail.com', name: 'Luiz Fernandes de Oliveira' });
-    const { status, body } = response;
-    expect(status).toBe(httpStatus.BAD_REQUEST);
-    expect(body.message).toBe(message.USER_VALID_PASSWORD_REQUIRED);
-  });
-
-  it('verifica se o password digitado é inválido.', async () => {
-    const response = await request(app)
-      .post('/users')
-      .send({ email: 'luizfernandesoliveiraoficial@gmail.com', password: 'luiz', name: 'Luiz Fernandes de Oliveira' });
-    const { status, body } = response;
-    expect(status).toBe(httpStatus.BAD_REQUEST);
-    expect(body.message).toBe(message.USER_VALID_PASSWORD_INVALID);
-  });
-});
-
-describe('[ AUTHENTICATION ] validation name', () => {
-  it('verifica se o name é obrigatório.', async () => {
-    const response = await request(app)
-      .post('/users')
-      .send({ email: 'luizfernandesoliveiraoficial@gmail.com', password: 'luiz123'});
-    const { status, body } = response;
-    expect(status).toBe(httpStatus.BAD_REQUEST);
-    expect(body.message).toBe(message.USER_VALID_NAME_REQUIRED);
+    it('verifica se o email digitado é inválido.', async () => {
+      await frisby.post(`${URL}/users`, {
+          email: 'luizfernandesoliveiraoficial@',
+          password: 'luiz123',
+          name: 'Luiz Fernandes de Oliveira',
+        })
+        .expect('status', httpStatus.BAD_REQUEST)
+        .then((response) => {
+          const result = JSON.parse(response.body);
+          expect(result.message).toBe(message.USER_VALID_EMAIL_INVALID);
+        });
+    });
   });
 
-  it('verifica se o name digitado é inválido.', async () => {
-    const response = await request(app)
-      .post('/users')
-      .send({ email: 'luizfernandesoliveiraoficial@gmail.com', password: 'luiz123', name: "" });
-    const { status, body } = response;
-    expect(status).toBe(httpStatus.BAD_REQUEST);
-    expect(body.message).toBe(message.USER_VALID_NAME_INVALID);
-  });
-});
+  describe('validation Password', () => {
+    it('verifica se o password é obrigatório.', async () => {
+      await frisby.post(`${URL}/users`, {
+          email: 'luizfernandesoliveiraoficial@gmail.com',
+          name: 'Luiz Fernandes de Oliveira',
+        })
+        .expect('status', httpStatus.BAD_REQUEST)
+        .then((response) => {
+          const result = JSON.parse(response.body);
+          expect(result.message).toBe(message.USER_VALID_PASSWORD_REQUIRED);
+        });
+    });
 
-describe('[ AUTHENTICATION ] not possible create user with email exists', () => {
-  it('verifica se o usuário é cadastrado com sucesso.', async () => {
-    const response = await request(app)
-      .post('/users')
-      .send({
-        email: 'luizfernandesoliveiraoficial@gmail.com',
-        password: 'luiz123',
-        name: 'Luiz Fernandes de Oliveira',
-      });
-    const { status, body } = response;
-    expect(status).toBe(httpStatus.BAD_REQUEST);
-    expect(body.message).toBe(message.USER_ALREADY_EXISTS);
+    it('verifica se o password digitado é inválido.', async () => {
+      await frisby.post(`${URL}/users`, {
+          email: 'luizfernandesoliveiraoficial@gmail.com',
+          password: '123',
+          name: 'Luiz Fernandes de Oliveira',
+        })
+        .expect('status', httpStatus.BAD_REQUEST)
+        .then((response) => {
+          const result = JSON.parse(response.body);
+          expect(result.message).toBe(message.USER_VALID_PASSWORD_INVALID);
+        });
+    });
+  });
+
+  describe('validation name', () => {
+    it('verifica se o name é obrigatório.', async () => {
+      await frisby.post(`${URL}/users`, {
+          email: 'luizfernandesoliveiraoficial@gmail.com',
+          password: '1luiz12323',
+        })
+        .expect('status', httpStatus.BAD_REQUEST)
+        .then((response) => {
+          const result = JSON.parse(response.body);
+          expect(result.message).toBe(message.USER_VALID_NAME_REQUIRED);
+        });
+    });
+
+    it('verifica se o name digitado é inválido.', async () => {
+      await frisby.post(`${URL}/users`, {
+          email: 'luizfernandesoliveiraoficial@gmail.com',
+          password: 'luiz123',
+          name: '',
+        })
+        .expect('status', httpStatus.BAD_REQUEST)
+        .then((response) => {
+          const result = JSON.parse(response.body);
+          expect(result.message).toBe(message.USER_VALID_NAME_INVALID);
+        });
+    });
+  });
+
+  describe('not possible create user with email exists', () => {
+    it('verifica se o email digitado já existe.', async () => {
+      await frisby.post(`${URL}/users`, {
+          email: 'luizfernandesoliveiraoficial@gmail.com',
+          password: 'luiz123',
+          name: 'Luiz Fernandes de Oliveira',
+        })
+        .expect('status', httpStatus.BAD_REQUEST)
+        .then((response) => {
+          const result = JSON.parse(response.body);
+          expect(result.message).toBe(message.USER_ALREADY_EXISTS);
+        });
+    });
+  });
+
+  describe('should be created user with success', () => {
+    // beforeEach(async () => {
+    //   await shell.exec('npx sequelize-cli db:drop');
+    //   await shell.exec('npx sequelize-cli db:create');
+    //   await shell.exec('npx sequelize-cli db:migrate');
+    //   await shell.exec('npx sequelize-cli db:seed:all');
+    // });
+      
+    it('verifica se o usuario foi criado com sucesso.', async () => {
+      await frisby.post(`${URL}/users`, {
+          email: 'luizfernandesoliveiraoficial2@gmail.com',
+          password: 'luiz123',
+          name: 'Nando',
+        })
+        .expect('status', httpStatus.CREATED)
+        .then((response) => {
+          const result = JSON.parse(response.body);
+          expect(result.email).toBe('luizfernandesoliveiraoficial2@gmail.com');
+        });
+    });
   });
 });
