@@ -1,8 +1,21 @@
 const message = require('../helpers/message');
 
+const { User } = require('./index');
+
 const defineUserModel = (sequelize, DataTypes) => {
   const User = sequelize.define("User", {
-    name: DataTypes.STRING,
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: message.USER_VALID_NAME_REQUIRED,
+        },
+        notEmpty: {
+          msg: message.USER_VALID_NAME_INVALID,
+        },
+      },
+    },
     email: {
      type: DataTypes.STRING,
      allowNull: false,
@@ -13,6 +26,12 @@ const defineUserModel = (sequelize, DataTypes) => {
       isEmail: {
         msg: message.USER_VALID_EMAIL_INVALID,
       },
+      emailExists: async function(email) {
+        const user = await User.findAll({ where: { email } });
+        if (user.length !== 0) {
+          throw new Error(message.USER_ALREADY_EXISTS);
+        }
+      }
      },
     },
     password: {
