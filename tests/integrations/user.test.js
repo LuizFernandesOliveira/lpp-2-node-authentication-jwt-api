@@ -1,11 +1,10 @@
 const frisby = require('frisby');
-const shell = require('shelljs');
 const httpStatus = require('../../src/helpers/httpStatus');
 const message = require('../../src/helpers/message');
 
 const URL = 'http://localhost:3333';
 
-describe('[ AUTHENTICATION ]', () => {
+describe('[ CREATE USER ]', () => {
 
   describe('validation Email', () => {
     it('verifica se o email é obrigatório.', async () => {
@@ -104,13 +103,6 @@ describe('[ AUTHENTICATION ]', () => {
   });
 
   describe('should be created user with success', () => {
-    // beforeEach(async () => {
-    //   await shell.exec('npx sequelize-cli db:drop');
-    //   await shell.exec('npx sequelize-cli db:create');
-    //   await shell.exec('npx sequelize-cli db:migrate');
-    //   await shell.exec('npx sequelize-cli db:seed:all');
-    // });
-      
     it('verifica se o usuario foi criado com sucesso.', async () => {
       await frisby.post(`${URL}/users`, {
           email: 'luizfernandesoliveiraoficial2@gmail.com',
