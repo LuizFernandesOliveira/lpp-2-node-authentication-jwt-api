@@ -6,4 +6,5 @@ module.exports = {
   USER_VALID_NAME_REQUIRED: '"name" is required.',
   USER_VALID_NAME_INVALID: '"name" is not empty.',
   USER_ALREADY_EXISTS: 'user already exists with this email',
+  USER_NOT_FOUND: 'wrong "email" or "password"',
 };
