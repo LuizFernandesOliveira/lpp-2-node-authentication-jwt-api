@@ -29,8 +29,9 @@ criar um API que rode na porta 3333 que tenha um C.R.U.D. de Usuário e que para
 
 
 ### Starting
- - configurando variáveis de ambiente  
-    Primeiramente crie um arquivo chamado **.env** no diretório raiz da aplicação. E, em seguida, adicione as seguintes variáveis nele. 
+ - **Configurando variáveis de ambiente**
+   
+   Primeiramente crie um arquivo chamado **.env** no diretório raiz da aplicação. E, em seguida, adicione as seguintes variáveis nele. 
     **Lembre-se de alterar o valor, conforme o seu ambiente**
     ```
     PORT=3333
@@ -41,8 +42,17 @@ criar um API que rode na porta 3333 que tenha um C.R.U.D. de Usuário e que para
     DB_HOST_=localhost
     DB_DIALECT_=postgres
     ```
- - inicializando aplicação
-    Para inicializar a aplicação basta rodar o seguinte comando:
-    ```shellscript
-    yarn debug
-    ```
+ - **Inicializando aplicação**
+   
+   Para inicializar a aplicação basta rodar o seguinte comando:
+   ```shellscript
+   yarn debug
+   ```
+
+ - **Testando aplicação**
+   
+   Para inicializar os tests basta startar a aplicação e, em seguida, digitar o seguinte comando:
+   **OBS:** afim de ter tests rápidos, os mesmos foram criados de forma que é necessário startar a aplicação sempre antes de rodar os tests. 
+   ```shellscript
+   yarn test
+   ```
