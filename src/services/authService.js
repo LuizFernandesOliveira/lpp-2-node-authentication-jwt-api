@@ -31,4 +31,21 @@ module.exports = {
     const token = jwt.sign({ data: { email } }, SECRET, jwtConfig);
     return { token };
   },
+
+  async getUserByToken(token) {
+    if (!token) {
+      throw new UserException(message.TOKEN_NOT_FOUND, httpStatus.UNAUTHORIZED);
+    }
+    try {
+      const { data } = jwt.verify(token, SECRET);
+      const user = await User.findOne({ where: { email: data.email } });
+      if (!user) {
+        throw new UserException(message.TOKEN_INVALID, httpStatus.UNAUTHORIZED);
+      }
+      delete user.password;
+      return user;
+    } catch (e) {
+      throw new UserException(message.TOKEN_INVALID, httpStatus.UNAUTHORIZED);
+    }
+  },
 };

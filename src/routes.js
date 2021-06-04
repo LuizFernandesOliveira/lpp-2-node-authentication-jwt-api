@@ -9,6 +9,7 @@ routes.route('/token')
   .post(authController.getToken);
 
 routes.route('/users')
+  .get(userController.getUserByToken)
   .post(userController.create);
 
 module.exports = routes;

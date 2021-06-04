@@ -11,6 +11,15 @@ class UserController {
       return response.status(e.httpStatus).json({ message: e.message });
     }
   }
+
+  async getUserByToken(request, response) {
+    try {
+      const user = await userService.getUserByToken(request.headers.authorization);
+      return response.status(httpStatus.OK).json(user);
+    } catch (e)  {
+      return response.status(e.httpStatus).json({ message: e.message });
+    }
+  }
 }
 
 module.exports = new UserController();
