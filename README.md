@@ -61,3 +61,23 @@ criar um API que rode na porta 3333 que tenha um C.R.U.D. de Usuário e que para
     	"message": "successfully deleted"
     }
     ```
+
+
+### Starting
+ - configurando variáveis de ambiente  
+    Primeiramente crie um arquivo chamado **.env** no diretório raiz da aplicação. E, em seguida, adicione as seguintes variáveis nele. 
+    **Lembre-se de alterar o valor, conforme o seu ambiente**
+    ```
+    PORT=3333
+    JWT_SECRET=secret
+    DB_USER_=postgres
+    DB_PASS_=291197
+    DB_NAME_=authUsers
+    DB_HOST_=localhost
+    DB_DIALECT_=postgres
+    ```
+ - inicializando aplicação
+    Para inicializar a aplicação basta rodar o seguinte comando:
+    ```shellscript
+    yarn debug
+    ```

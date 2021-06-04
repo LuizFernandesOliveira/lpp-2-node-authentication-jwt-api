@@ -105,14 +105,14 @@ describe('[ CREATE USER ]', () => {
   describe('should be created user with success', () => {
     it('verifica se o usuario foi criado com sucesso.', async () => {
       await frisby.post(`${URL}/users`, {
-          email: 'luizfernandesoliveiraoficial2@gmail.com',
+          email: 'luizfernandesoliveiraoficial3@gmail.com',
           password: 'luiz123',
           name: 'Nando',
         })
         .expect('status', httpStatus.CREATED)
         .then((response) => {
           const result = JSON.parse(response.body);
-          expect(result.email).toBe('luizfernandesoliveiraoficial2@gmail.com');
+          expect(result.email).toBe('luizfernandesoliveiraoficial3@gmail.com');
         });
     });
   });

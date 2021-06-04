@@ -5,8 +5,8 @@
   "license": "MIT",
   "scripts": {
     "start": "node src/server.js",
+    "predebug": "sequelize db:drop; sequelize db:create; sequelize db:migrate; sequelize db:seed:all",
     "debug": "nodemon src/server.js --ignore tests",
-    "pretest": "sequelize db:drop; sequelize db:create; sequelize db:migrate; sequelize db:seed:all",
     "test": "jest --runInBand"
   },
   "dependencies": {

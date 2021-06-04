@@ -1,11 +1,11 @@
 const httpStatus = require('../helpers/httpStatus');
-const userService = require('../services/userService');
+const authService = require('../services/authService');
 
 class AuthController {
   async getToken(request, response) {
     try {
-      const user = await userService.create(request.body);
-      return response.status(httpStatus.CREATED).json(user);
+      const { token } = await authService.getTokenByUser(request.body);
+      return response.status(httpStatus.OK).json({ token });
     } catch (e)  {
       return response.status(e.httpStatus).json({ message: e.message });
     }
