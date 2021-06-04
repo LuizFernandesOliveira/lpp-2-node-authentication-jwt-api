@@ -1,6 +1,7 @@
 const httpStatus = require('../helpers/httpStatus');
 const UserException = require('../exceptions/userException');
 const authService = require('./authService');
+const message = require('../helpers/message');
 
 const { User } = require('../models');
 
@@ -28,5 +29,13 @@ module.exports = {
     user.name = name;
 
     return user;
-  }
+  },
+
+  async deleteUserByToken(token) {
+    const user = await this.getUserByToken(token);
+
+    await User.destroy({ where: { email: user.email }});
+
+    return { message: message.USER_DELETED };
+  },
 };

@@ -8,6 +8,7 @@ module.exports = {
   USER_ALREADY_EXISTS: 'user already exists with this email',
   USER_NOT_FOUND: 'wrong "email" or "password"',
   USER_UNAUTHORIZED: 'Unauthorized user',
+  USER_DELETED: 'user deleted',
   TOKEN_NOT_FOUND: 'Token not found',
   TOKEN_INVALID: 'Expired or invalid token',
 };

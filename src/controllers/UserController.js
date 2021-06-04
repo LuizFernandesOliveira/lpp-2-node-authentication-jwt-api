@@ -1,5 +1,4 @@
 const httpStatus = require('../helpers/httpStatus');
-const message = require('../helpers/message');
 const userService = require('../services/userService');
 
 class UserController {
@@ -26,6 +25,16 @@ class UserController {
       const { body, headers: { authorization } } = request;
       const user = await userService.update(body, authorization);
       return response.status(httpStatus.OK).json(user);
+    } catch (e)  {
+      return response.status(e.httpStatus).json({ message: e.message });
+    }
+  }
+
+  async deleteUserByToken(request, response) {
+    try {
+      const { headers: { authorization } } = request;
+      const { message } = await userService.deleteUserByToken(authorization);
+      return response.status(httpStatus.OK).json({ message });
     } catch (e)  {
       return response.status(e.httpStatus).json({ message: e.message });
     }

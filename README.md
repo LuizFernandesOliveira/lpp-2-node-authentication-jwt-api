@@ -25,12 +25,7 @@ criar um API que rode na porta 3333 que tenha um C.R.U.D. de Usuário e que para
 
 - `HTTP/1.1 DELETE /user`
 
-    ```json
-    RESPONSE
-    {
-    	"message": "successfully deleted"
-    }
-    ```
+<img src="./screenshots/screen5.png" />
 
 
 ### Starting
