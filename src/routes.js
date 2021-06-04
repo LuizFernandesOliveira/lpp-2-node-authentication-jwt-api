@@ -10,6 +10,7 @@ routes.route('/token')
 
 routes.route('/users')
   .get(userController.getUserByToken)
-  .post(userController.create);
+  .post(userController.create)
+  .put(userController.update);
 
 module.exports = routes;

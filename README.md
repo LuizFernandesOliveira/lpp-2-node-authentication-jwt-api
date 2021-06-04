@@ -21,19 +21,7 @@ criar um API que rode na porta 3333 que tenha um C.R.U.D. de Usuário e que para
 
 - `HTTP/1.1 PUT /user`
 
-    ```json
-    REQUEST
-    {
-    	"nome": "Nando"
-    }
-    RESPONSE
-    {
-    	"id": 1,
-    	"name": "Nando",
-    	"email": "luizfernandesoliveiraoficial@gmail.com",
-    	"password": "luiz123"
-    }
-    ```
+<img src="./screenshots/screen4.png" />
 
 - `HTTP/1.1 DELETE /user`
 

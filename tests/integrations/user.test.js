@@ -186,3 +186,67 @@ describe('[ GET USER ]', () => {
         });
   });
 });
+
+
+describe('[ UPDATE USER ]', () => {
+  it('verifica que o token é obrigatório', async () => {
+    await frisby
+      .put(`${URL}/users`)
+      .expect('status', httpStatus.UNAUTHORIZED)
+      .then((response) => {
+        const result = JSON.parse(response.body);
+        expect(result.message).toBe(message.TOKEN_NOT_FOUND);
+      });
+  });
+
+  it('verifica que não é possível atualizar usuario com token invalido', async () => {
+    let token = 'ytsafy98ahd98h';
+
+    await frisby
+      .setup({
+        request: {
+          headers: {
+            Authorization: token,
+            'Content-Type': 'application/json',
+          },
+        },
+      })
+      .put(`${URL}/users`)
+      .expect('status', httpStatus.UNAUTHORIZED)
+      .then((response) => {
+        const result = JSON.parse(response.body);
+        expect(result.message).toBe(message.TOKEN_INVALID);
+      });
+  });
+
+  it('verifica se retorna os dados do usuario atualizado corretamente', async () => {
+    let token;
+    await frisby.post(`${URL}/token`, {
+        email: 'luizfernandesoliveiraoficial@gmail.com',
+        password: 'luiz123',
+      })
+        .expect('status', httpStatus.OK)
+        .then((response) => {
+          const result = JSON.parse(response.body);
+          token = result.token;
+        });
+
+    await frisby.setup({
+          request: {
+            headers: {
+              Authorization: token,
+              'Content-Type': 'application/json',
+            },
+          },
+        })
+        .put(`${URL}/users`, {
+          name: 'Nando',
+        })
+        .expect('status', httpStatus.OK)
+        .then((response) => {
+          const { name, email } = JSON.parse(response.body);
+          expect(name).toBe('Nando');
+          expect(email).toBe('luizfernandesoliveiraoficial@gmail.com');
+        });
+  });
+});

@@ -20,6 +20,16 @@ class UserController {
       return response.status(e.httpStatus).json({ message: e.message });
     }
   }
+
+  async update(request, response) {
+    try {
+      const { body, headers: { authorization } } = request;
+      const user = await userService.update(body, authorization);
+      return response.status(httpStatus.OK).json(user);
+    } catch (e)  {
+      return response.status(e.httpStatus).json({ message: e.message });
+    }
+  }
 }
 
 module.exports = new UserController();

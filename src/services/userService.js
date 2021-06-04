@@ -20,4 +20,13 @@ module.exports = {
 
     return user;
   },
+
+  async update({ name }, token) {
+    const user = await this.getUserByToken(token);
+
+    await User.update({ name }, { where: { email: user.email }});
+    user.name = name;
+
+    return user;
+  }
 };
