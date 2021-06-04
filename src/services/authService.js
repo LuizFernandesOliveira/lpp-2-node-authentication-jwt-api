@@ -42,8 +42,11 @@ module.exports = {
       if (!user) {
         throw new UserException(message.TOKEN_INVALID, httpStatus.UNAUTHORIZED);
       }
-      delete user.password;
-      return user;
+      return {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+      };
     } catch (e) {
       throw new UserException(message.TOKEN_INVALID, httpStatus.UNAUTHORIZED);
     }
